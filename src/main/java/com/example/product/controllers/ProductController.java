@@ -33,7 +33,7 @@ public class ProductController {
             @RequestParam(defaultValue = "name") String sortBy,
             @RequestParam(defaultValue = "") String sort,
             @RequestParam(required = false) String createdByUsername,
-            @PageableDefault(page = 5) Pageable pageable
+            @PageableDefault(size = 5) Pageable pageable
     ){
 
         Page<Product> products = productService.searchProducts(name, stock, pageable, sort, sortBy, createdByUsername);

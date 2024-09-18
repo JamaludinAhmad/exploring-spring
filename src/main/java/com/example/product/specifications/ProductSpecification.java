@@ -17,9 +17,10 @@ public class ProductSpecification {
 
     public static Specification<Product> hasCreateByUsername(String name){
         return (root, query, criteriaBuilder) -> {
-            Join<Product, User> users = root.join("users");
 
-            return criteriaBuilder.equal(users.get("username"), name);
+            Join<Product, User> users = root.join("createdBy");
+
+            return (name == null) ? null : criteriaBuilder.equal(users.get("username"), name);
         };
     }
 

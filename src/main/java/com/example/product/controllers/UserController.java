@@ -1,8 +1,10 @@
 package com.example.product.controllers;
 
+import com.example.product.dtos.UserDTO;
 import com.example.product.entities.User;
 import com.example.product.handler.Response;
 import com.example.product.services.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,9 +24,9 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> createUser(@RequestBody User user){
+    public ResponseEntity<Object> createUser(@RequestBody @Valid UserDTO user){
         User newUser = userService.create(user);
-        Response<Object> resp = new Response<>(HttpStatus.CREATED.value(), "data inserted successfully", newUser);
+        Response<Object> resp = new Response<>("data inserted successfully", newUser, null);
         return ResponseEntity.status(HttpStatus.CREATED).body(resp);
     }
 }

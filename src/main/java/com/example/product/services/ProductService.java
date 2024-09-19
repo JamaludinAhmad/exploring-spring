@@ -1,5 +1,6 @@
 package com.example.product.services;
 
+import com.example.product.dtos.ProductDTO;
 import com.example.product.entities.Product;
 import com.example.product.repositories.ProductRepository;
 import com.example.product.specifications.ProductSpecification;
@@ -20,12 +21,14 @@ public class ProductService {
     @Autowired
     private ProductRepository productRepository;
 
-    public Product create(Product product){
-        return productRepository.save(product);
-    }
+    public Product create(ProductDTO productDTO){
 
-    public List<Product> getAll(){
-        return productRepository.findAll();
+        Product product = new Product();
+        product.setName(productDTO.getName());
+        product.setDescription(productDTO.getDescription());
+        product.setStock(productDTO.getStock());
+
+        return productRepository.save(product);
     }
 
     public Page<Product> searchProducts(String name, int stock, Pageable pageable, String description, String sortBy, String username){
@@ -43,4 +46,5 @@ public class ProductService {
 
         return productRepository.findAll(spec, sortedPage);
     }
+
 }

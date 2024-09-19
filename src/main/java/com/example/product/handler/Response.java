@@ -1,13 +1,16 @@
 package com.example.product.handler;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+
 @AllArgsConstructor
+@Getter @Setter
 public class Response<T> {
-    private int statusCode;
     private String message;
     private T data;
+    private Object errors;
+
 
 }

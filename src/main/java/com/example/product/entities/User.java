@@ -23,7 +23,6 @@ public class User {
     private Long id;
 
     @Column(unique = true, length = 25, nullable = false)
-    @NotBlank
     private String username;
 
     public User(Long id, String username, String email, String password, Date createdAt, Date updatedAt) {
@@ -35,11 +34,7 @@ public class User {
         this.updatedAt = updatedAt;
     }
 
-    @NotBlank
-    @Email
     private String email;
-
-    @NotBlank
     private String password;
 
     @CreationTimestamp

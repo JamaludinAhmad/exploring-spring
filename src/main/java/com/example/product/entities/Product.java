@@ -19,17 +19,14 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
     private String name;
 
     @Column(columnDefinition = "TEXT")
     private String description;
 
     private int stock;
-    private int categoryId;
 
     @ManyToOne
-    @NotNull
     @JoinColumn(name = "user_id")
     private User createdBy;
 

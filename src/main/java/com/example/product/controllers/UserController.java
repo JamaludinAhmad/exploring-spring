@@ -23,10 +23,22 @@ public class UserController {
         return new ResponseEntity<>("tes", HttpStatus.OK);
     }
 
+    @GetMapping("/{userId}")
+    public ResponseEntity<Object> getOne(@PathVariable("userId") Long id){
+        Response<Object> resp = new Response<>("data berhasil didapatkan", userService.findOne(id), null);
+        return ResponseEntity.status(HttpStatus.OK).body(resp);
+    }
+
+//    @PutMapping("/{userId}")
+//    public ResponseEntity<Object> update(@PathVariable("userId") Long id, @Valid UserDTO){
+//
+//    }
+
     @PostMapping
     public ResponseEntity<Object> createUser(@RequestBody @Valid UserDTO user){
         User newUser = userService.create(user);
         Response<Object> resp = new Response<>("data inserted successfully", newUser, null);
         return ResponseEntity.status(HttpStatus.CREATED).body(resp);
     }
+
 }

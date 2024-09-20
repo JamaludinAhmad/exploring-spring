@@ -12,5 +12,8 @@ public class Response<T> {
     private T data;
     private Object errors;
 
+    public static Response<Object> setResponse(String message, Object data){
+        return new Response<>(message, data, null);
+    }
 
 }

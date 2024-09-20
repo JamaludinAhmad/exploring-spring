@@ -27,11 +27,13 @@ public class ProductService {
         product.setName(productDTO.getName());
         product.setDescription(productDTO.getDescription());
         product.setStock(productDTO.getStock());
+        product.setCategory(productDTO.getCategoryId());
+        product.setCreatedBy(productDTO.getUserId());
 
         return productRepository.save(product);
     }
 
-    public Page<Product> searchProducts(String name, int stock, Pageable pageable, String description, String sortBy, String username){
+    public Page<Product> searchProducts(String name, int stock, Pageable pageable, String description, String sortBy, String username, String category){
         Sort sort = Sort.unsorted();
 
         if(!Objects.equals(description, "")){
@@ -42,9 +44,19 @@ public class ProductService {
 
         Specification<Product> spec = Specification.where(ProductSpecification.hasName(name))
                 .and(ProductSpecification.hasGreaterThan(stock))
-                .and(ProductSpecification.hasCreateByUsername(username));
+                .and(ProductSpecification.hasCreateByUsername(username))
+                .and(ProductSpecification.hasCategoryName(category));
 
         return productRepository.findAll(spec, sortedPage);
+    }
+
+    public void delete(Long id){
+        productRepository.deleteById(id);
+    }
+
+    public Product update(ProductDTO productDTO){
+//         TODO: edit
+        return null;
     }
 
 }

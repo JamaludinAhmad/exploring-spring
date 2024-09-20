@@ -30,4 +30,6 @@ public class CategoryController {
 
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
+
+    
 }

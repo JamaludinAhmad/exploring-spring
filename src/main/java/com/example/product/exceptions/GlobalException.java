@@ -8,6 +8,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
@@ -17,12 +18,14 @@ import java.util.List;
 @ControllerAdvice
 public class GlobalException {
 
+    @ResponseStatus
     @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
     public ResponseEntity<Object> sqlException(SQLIntegrityConstraintViolationException ex){
         Response<String> err = new Response<>("the username has already taken", null, null);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
     }
 
+    @ResponseStatus
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Object> validationInputException(MethodArgumentNotValidException ex){
         List<String> errors = new ArrayList<>();

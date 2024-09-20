@@ -18,12 +18,13 @@ public class Category {
     private Long id;
 
     @Column(unique = true)
-    @NotBlank
     private String name;
 
     @Column(columnDefinition = "TEXT")
-    @NotBlank
     private String description;
 
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Product> products;
 
 }

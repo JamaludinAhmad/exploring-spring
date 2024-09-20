@@ -30,6 +30,10 @@ public class Product {
     @JoinColumn(name = "user_id")
     private User createdBy;
 
+    @ManyToOne
+    @JoinColumn
+    private Category category;
+
     @CreationTimestamp
     private Date createdAt;
 

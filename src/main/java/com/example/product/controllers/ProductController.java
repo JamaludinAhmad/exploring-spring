@@ -37,18 +37,13 @@ public class ProductController {
             @RequestParam(defaultValue = "name") String sortBy,
             @RequestParam(defaultValue = "") String sort,
             @RequestParam(required = false) String createdByUsername,
+            @RequestParam(required = false) String category,
             @PageableDefault(size = 10) Pageable pageable
     ){
-        Page<Product> products = productService.searchProducts(name, stock, pageable, sort, sortBy, createdByUsername);
+        Page<Product> products = productService.searchProducts(name, stock, pageable, sort, sortBy, createdByUsername, category);
         Response<Object> resp = new Response<>("berhasil ambil data", products, null);
         return ResponseEntity.status(HttpStatus.OK).body(resp);
     }
 
-//    @GetMapping
-//    public  ResponseEntity<Object> getAll(){
-//        List<Product> products = productService.getAll();
-//        Response<Object> response = new Response<>(HttpStatus.OK.value(), "sucess get data", products);
-//
-//        return ResponseEntity.status(HttpStatus.OK).body(response);
-//    }
+
 }

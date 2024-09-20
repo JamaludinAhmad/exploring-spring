@@ -1,5 +1,6 @@
 package com.example.product.specifications;
 
+import com.example.product.entities.Category;
 import com.example.product.entities.Product;
 import com.example.product.entities.User;
 import jakarta.persistence.criteria.Join;
@@ -21,6 +22,14 @@ public class ProductSpecification {
             Join<Product, User> users = root.join("createdBy");
 
             return (name == null) ? null : criteriaBuilder.equal(users.get("username"), name);
+        };
+    }
+
+    public static Specification<Product> hasCategoryName(String name){
+        return (root, query, criteriaBuilder) -> {
+            Join<Product, Category> categories = root.join("category");
+
+            return (name == null) ? null : criteriaBuilder.equal(categories.get("name"), name);
         };
     }
 

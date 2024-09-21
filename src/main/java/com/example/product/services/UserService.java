@@ -16,22 +16,19 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public User create(UserDTO user){
+    public User create(User user){
         String pwHash = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
-
-        User newUser = new User();
-        newUser.setUsername(user.getUsername());
-        newUser.setEmail(user.getEmail());
-        newUser.setPassword(pwHash);
-
-        return userRepository.save(newUser);
+        user.setPassword(pwHash);
+        return userRepository.save(user);
     }
 
-    public Optional<User> findOne(Long id){
-
-        Optional<User> user = userRepository.findById(id);
-        if(user.isEmpty()){
+    public User findOne(Long id){
+        User user = new User();
+        Optional<User> getUser = userRepository.findById(id);
+        if(getUser.isEmpty()){
             throw new DataNotFoundExceptionHandler("data tidak ditemukan");
+        } else{
+            user = getUser.get();
         }
         return user;
     }

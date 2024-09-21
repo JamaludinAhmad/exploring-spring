@@ -1,10 +1,12 @@
 package com.example.product.controllers;
 
 import com.example.product.dtos.UserDTO;
+import com.example.product.dtos.UserResponse;
 import com.example.product.entities.User;
 import com.example.product.handler.Response;
 import com.example.product.services.UserService;
 import jakarta.validation.Valid;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
 
     @GetMapping
     public ResponseEntity<Object> getAll(){
@@ -25,7 +30,8 @@ public class UserController {
 
     @GetMapping("/{userId}")
     public ResponseEntity<Object> getOne(@PathVariable("userId") Long id){
-        Response<Object> resp = new Response<>("data berhasil didapatkan", userService.findOne(id), null);
+        User user = userService.findOne(id);
+        Response<Object> resp = new Response<>("data berhasil didapatkan", modelMapper.map(user, UserResponse.class), null);
         return ResponseEntity.status(HttpStatus.OK).body(resp);
     }
 
@@ -36,8 +42,8 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<Object> createUser(@RequestBody @Valid UserDTO user){
-        User newUser = userService.create(user);
-        Response<Object> resp = new Response<>("data inserted successfully", newUser, null);
+        User newUser = userService.create(modelMapper.map(user, User.class));
+        Response<Object> resp = new Response<>("data inserted successfully", modelMapper.map(newUser, UserResponse.class), null);
         return ResponseEntity.status(HttpStatus.CREATED).body(resp);
     }
 

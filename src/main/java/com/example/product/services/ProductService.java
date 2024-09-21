@@ -2,6 +2,7 @@ package com.example.product.services;
 
 import com.example.product.dtos.ProductDTO;
 import com.example.product.entities.Product;
+import com.example.product.exceptions.DataNotFoundExceptionHandler;
 import com.example.product.repositories.ProductRepository;
 import com.example.product.specifications.ProductSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +48,8 @@ public class ProductService {
                 .and(ProductSpecification.hasCreateByUsername(username))
                 .and(ProductSpecification.hasCategoryName(category));
 
+        Page<Product> result = productRepository.findAll(spec, sortedPage);
+        if(result.getTotalElements() == 0) throw new DataNotFoundExceptionHandler("Data tidak ditemukan");
         return productRepository.findAll(spec, sortedPage);
     }
 

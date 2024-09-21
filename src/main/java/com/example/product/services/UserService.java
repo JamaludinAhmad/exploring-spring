@@ -5,6 +5,7 @@ import com.example.product.entities.User;
 import com.example.product.exceptions.DataNotFoundExceptionHandler;
 import com.example.product.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -16,10 +17,12 @@ public class UserService {
     private UserRepository userRepository;
 
     public User create(UserDTO user){
+        String pwHash = BCrypt.hashpw(user.getPassword(), BCrypt.gensalt());
+
         User newUser = new User();
         newUser.setUsername(user.getUsername());
         newUser.setEmail(user.getEmail());
-        newUser.setPassword(user.getPassword());
+        newUser.setPassword(pwHash);
 
         return userRepository.save(newUser);
     }

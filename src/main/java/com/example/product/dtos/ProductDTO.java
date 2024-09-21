@@ -27,10 +27,10 @@ public class ProductDTO {
     private Integer stock;
 
     @NotNull(message = "category id tidak boleh kosong")
-    private Category categoryId;
+    private Long category;
 
     @NotNull(message = "user id kosong")
-    private User userId;
+    private Long createdBy;
 
 
 }

@@ -22,14 +22,7 @@ public class ProductService {
     @Autowired
     private ProductRepository productRepository;
 
-    public Product create(ProductDTO productDTO){
-
-        Product product = new Product();
-        product.setName(productDTO.getName());
-        product.setDescription(productDTO.getDescription());
-        product.setStock(productDTO.getStock());
-        product.setCategory(productDTO.getCategoryId());
-        product.setCreatedBy(productDTO.getUserId());
+    public Product create(Product product){
 
         return productRepository.save(product);
     }

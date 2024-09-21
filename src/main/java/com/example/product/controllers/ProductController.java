@@ -5,6 +5,7 @@ import com.example.product.entities.Product;
 import com.example.product.handler.Response;
 import com.example.product.services.ProductService;
 import jakarta.validation.Valid;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,8 +23,13 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     @PostMapping
-    public ResponseEntity<Object> createProduct(@RequestBody @Valid ProductDTO product){
+    public ResponseEntity<Object> createProduct(@RequestBody @Valid ProductDTO dto){
+        Product product = modelMapper.map(dto, Product.class);
+
         Product new_product = productService.create(product);
         Response<Object> response = new Response<>("product has inserted succesfully", new_product, null);
 

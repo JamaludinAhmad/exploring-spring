@@ -46,11 +46,13 @@ public class GlobalException {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(err);
     }
 
-//    @ExceptionHandler(Exception.class)
-//    public ResponseEntity<Object> exceptionHandler(Exception ex){
-//        Response<String> err = new Response<>(ex.getMessage(), null, null);
-//        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
-//    }
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<Object> exceptionHandler(Exception ex){
+        ex.printStackTrace();
+
+        Response<String> err = new Response<>(ex.getMessage(), null, null);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
+    }
 
 
 

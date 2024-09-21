@@ -34,7 +34,9 @@ public class User {
         this.updatedAt = updatedAt;
     }
 
+    @Column(unique = true)
     private String email;
+
     private String password;
 
     @CreationTimestamp

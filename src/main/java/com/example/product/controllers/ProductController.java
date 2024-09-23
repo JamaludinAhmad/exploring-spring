@@ -1,6 +1,7 @@
 package com.example.product.controllers;
 
 import com.example.product.dtos.ProductDTO;
+import com.example.product.dtos.ProductResponse;
 import com.example.product.dtos.UserDTO;
 import com.example.product.dtos.UserResponse;
 import com.example.product.entities.Product;
@@ -62,7 +63,13 @@ public class ProductController {
             @RequestParam(required = true, defaultValue = "1") Integer page
     ){
         Page<Product> products = productService.searchProducts(name, stock, sort, sortBy, createdByUsername, category, size, page);
-        Response<Object> resp = new Response<>("berhasil ambil data", products, null);
+        Page<ProductResponse> result = products.map(product -> {
+           UserResponse userResponse = modelMapper.map(product.getCreatedBy(), UserResponse.class);
+           ProductResponse productResponse = modelMapper.map(product, ProductResponse.class);
+           productResponse.setCreatedBy(userResponse);
+           return productResponse;
+        });
+        Response<Object> resp = new Response<>("berhasil ambil data", result, null);
         return ResponseEntity.status(HttpStatus.OK).body(resp);
     }
 

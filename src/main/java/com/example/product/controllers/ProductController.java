@@ -58,9 +58,10 @@ public class ProductController {
             @RequestParam(defaultValue = "") String sort,
             @RequestParam(required = false) String createdByUsername,
             @RequestParam(required = false) Long category,
-            @PageableDefault(size = 10) Pageable pageable
+            @RequestParam(required = true, defaultValue = "5") Integer size,
+            @RequestParam(required = true, defaultValue = "1") Integer page
     ){
-        Page<Product> products = productService.searchProducts(name, stock, pageable, sort, sortBy, createdByUsername, category);
+        Page<Product> products = productService.searchProducts(name, stock, sort, sortBy, createdByUsername, category, size, page);
         Response<Object> resp = new Response<>("berhasil ambil data", products, null);
         return ResponseEntity.status(HttpStatus.OK).body(resp);
     }

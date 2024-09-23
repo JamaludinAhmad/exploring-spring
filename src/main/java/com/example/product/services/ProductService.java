@@ -27,14 +27,14 @@ public class ProductService {
         return productRepository.save(product);
     }
 
-    public Page<Product> searchProducts(String name, int stock, Pageable pageable, String description, String sortBy, String username, Long categoryId){
+    public Page<Product> searchProducts(String name, int stock, String description, String sortBy, String username, Long categoryId, Integer size, Integer page){
         Sort sort = Sort.unsorted();
 
         if(!Objects.equals(description, "")){
             sort = description.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
 
         }
-        Pageable sortedPage = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
+        Pageable sortedPage = PageRequest.of(page - 1, size, sort);
 
         Specification<Product> spec = Specification.where(ProductSpecification.hasName(name))
                 .and(ProductSpecification.hasGreaterThan(stock))

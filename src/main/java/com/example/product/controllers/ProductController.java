@@ -3,7 +3,9 @@ package com.example.product.controllers;
 import com.example.product.dtos.ProductDTO;
 import com.example.product.entities.Product;
 import com.example.product.handler.Response;
+import com.example.product.services.CategoryService;
 import com.example.product.services.ProductService;
+import com.example.product.services.UserService;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,13 +26,22 @@ public class ProductController {
     private ProductService productService;
 
     @Autowired
+    private CategoryService categoryService;
+
+    @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    private UserService userService;
 
     @PostMapping
     public ResponseEntity<Object> createProduct(@RequestBody @Valid ProductDTO dto){
-        Product product = modelMapper.map(dto, Product.class);
 
+        Product product = modelMapper.map(dto, Product.class);
+        product.setCategory(categoryService.findOne(dto.getCategory()));
+        product.setCreatedBy(userService.findOne(dto.getCreatedBy()));
         Product new_product = productService.create(product);
+
         Response<Object> response = new Response<>("product has inserted succesfully", new_product, null);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);

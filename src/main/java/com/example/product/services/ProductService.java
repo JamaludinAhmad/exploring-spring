@@ -27,7 +27,7 @@ public class ProductService {
         return productRepository.save(product);
     }
 
-    public Page<Product> searchProducts(String name, int stock, Pageable pageable, String description, String sortBy, String username, String category){
+    public Page<Product> searchProducts(String name, int stock, Pageable pageable, String description, String sortBy, String username, Long categoryId){
         Sort sort = Sort.unsorted();
 
         if(!Objects.equals(description, "")){
@@ -39,7 +39,7 @@ public class ProductService {
         Specification<Product> spec = Specification.where(ProductSpecification.hasName(name))
                 .and(ProductSpecification.hasGreaterThan(stock))
                 .and(ProductSpecification.hasCreateByUsername(username))
-                .and(ProductSpecification.hasCategoryName(category));
+                .and(ProductSpecification.hasCategoryName(categoryId));
 
         Page<Product> result = productRepository.findAll(spec, sortedPage);
         if(result.getTotalElements() == 0) throw new DataNotFoundExceptionHandler("Data tidak ditemukan");

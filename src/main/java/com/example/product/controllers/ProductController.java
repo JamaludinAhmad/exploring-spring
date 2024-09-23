@@ -1,6 +1,8 @@
 package com.example.product.controllers;
 
 import com.example.product.dtos.ProductDTO;
+import com.example.product.dtos.UserDTO;
+import com.example.product.dtos.UserResponse;
 import com.example.product.entities.Product;
 import com.example.product.handler.Response;
 import com.example.product.services.CategoryService;
@@ -9,6 +11,7 @@ import com.example.product.services.UserService;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -54,7 +57,7 @@ public class ProductController {
             @RequestParam(defaultValue = "name") String sortBy,
             @RequestParam(defaultValue = "") String sort,
             @RequestParam(required = false) String createdByUsername,
-            @RequestParam(required = false) String category,
+            @RequestParam(required = false) Long category,
             @PageableDefault(size = 10) Pageable pageable
     ){
         Page<Product> products = productService.searchProducts(name, stock, pageable, sort, sortBy, createdByUsername, category);

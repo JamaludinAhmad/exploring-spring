@@ -25,11 +25,11 @@ public class ProductSpecification {
         };
     }
 
-    public static Specification<Product> hasCategoryName(String name){
+    public static Specification<Product> hasCategoryName(Long id){
         return (root, query, criteriaBuilder) -> {
             Join<Product, Category> categories = root.join("category");
 
-            return (name == null) ? null : criteriaBuilder.equal(categories.get("name"), name);
+            return (id == null) ? null : criteriaBuilder.equal(categories.get("id"), id);
         };
     }
 

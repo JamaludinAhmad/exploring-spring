@@ -3,7 +3,6 @@ package com.example.product.controllers;
 import com.example.product.entities.Category;
 import com.example.product.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
@@ -21,12 +20,11 @@ public class CategoryController {
     private CategoryService categoryService;
 
     @GetMapping
-    public ResponseEntity<Object> getCategori(
-            @RequestParam(required = false) String category,
+    public ResponseEntity<Object> getCategory(
+            @RequestParam(required = false) Long id,
             @PageableDefault(size = 5) Pageable pageable
             ){
-
-        Category result = categoryService.getCategory(category, pageable);
+        Category result = categoryService.findOne(id);
 
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }

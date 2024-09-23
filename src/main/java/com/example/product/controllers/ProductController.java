@@ -2,8 +2,6 @@ package com.example.product.controllers;
 
 import com.example.product.dtos.ProductDTO;
 import com.example.product.dtos.ProductResponse;
-import com.example.product.dtos.UserDTO;
-import com.example.product.dtos.UserResponse;
 import com.example.product.entities.Product;
 import com.example.product.handler.Response;
 import com.example.product.services.CategoryService;
@@ -12,10 +10,7 @@ import com.example.product.services.UserService;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -63,12 +58,8 @@ public class ProductController {
             @RequestParam(required = true, defaultValue = "1") Integer page
     ){
         Page<Product> products = productService.searchProducts(name, stock, sort, sortBy, createdByUsername, category, size, page);
-        Page<ProductResponse> result = products.map(product -> {
-           UserResponse userResponse = modelMapper.map(product.getCreatedBy(), UserResponse.class);
-           ProductResponse productResponse = modelMapper.map(product, ProductResponse.class);
-           productResponse.setCreatedBy(userResponse);
-           return productResponse;
-        });
+
+        Page<ProductResponse> result = products.map(product -> modelMapper.map(product, ProductResponse.class));
         Response<Object> resp = new Response<>("berhasil ambil data", result, null);
         return ResponseEntity.status(HttpStatus.OK).body(resp);
     }
